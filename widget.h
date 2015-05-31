@@ -36,7 +36,7 @@ private:
     void moveLeft();
     void moveDown();
     bool movepossible();
-    void endGame();
+    void endGame(int ch);
     Tile* tile[4][4];
     int score;
     QPushButton* resetb;

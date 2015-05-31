@@ -47,28 +47,28 @@ void Widget::keyPressEvent(QKeyEvent *event)
         {
             if(movepossible())
                  moveUp();
-            else endGame();
+            else endGame(1);
             break;
         }
         case Qt::Key_Down:
         {
             if(movepossible())
              moveDown();
-            else endGame();
+            else endGame(1);
             break;
         }
         case Qt::Key_Left:
         {
             if(movepossible())
                 moveLeft();
-            else endGame();
+            else endGame(1);
             break;
         }
         case Qt::Key_Right:
         {
             if(movepossible())
                 moveRight();
-            else endGame();
+            else endGame(1);
             break;
         }
         default: QWidget::keyPressEvent(event);
@@ -89,7 +89,7 @@ void Widget::moveUp()
                     score+=tile[i-1][j]->getNumber();
                     emit changed(score);
                     if(tile[i-1][j]->getNumber() == 2048)
-                        endGame();                 
+                        endGame(2);
                 }
             }  
 
@@ -111,7 +111,7 @@ void Widget::moveRight()
                     score += tile[i][j+1]->getNumber();
                     emit changed(score);
                     if(tile[i][j+1]->getNumber() == 2048)
-                        endGame();                   
+                        endGame(2);
                 }
             }
         
@@ -133,7 +133,7 @@ void Widget::moveLeft()
                     score += tile[i][j-1]->getNumber();
                     emit changed(score);
                     if(tile[i][j-1]->getNumber() == 2048)
-                        endGame();                  
+                        endGame(2);
                 }
             }
 
@@ -155,7 +155,7 @@ void Widget::moveDown()
                     score += tile[i+1][j]->getNumber();
                     emit changed(score);
                     if(tile[i+1][j]->getNumber() == 2048)                    
-                        endGame();
+                        endGame(2);
                 }
             }
             
@@ -183,8 +183,9 @@ bool Widget::movepossible()
     
 }
 
-void Widget::endGame()
+void Widget::endGame(int ch)
 {
+
         endgame= new QWidget;
         layout = new QVBoxLayout;
         resetb = new QPushButton;
@@ -197,7 +198,7 @@ void Widget::endGame()
         QObject::connect(exit,SIGNAL(clicked()),this,SLOT(quits()) );
         resetb->setText("Reset");
         exit->setText("Exit");
-        if(score==2048)
+        if(ch==2)
         word->setText("2048 Win!");
         else
         word->setText("Gameover");
